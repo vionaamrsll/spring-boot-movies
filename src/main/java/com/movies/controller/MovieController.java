@@ -1,11 +1,14 @@
 package com.movies.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.movies.entity.Movies;
 import com.movies.model.MovieRequest;
 import com.movies.model.WebResponse;
 import com.movies.service.MovieService;
@@ -14,6 +17,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -51,5 +55,14 @@ public class MovieController {
 
         movieService.newMovie(request);
         return WebResponse.<String>builder().data("ok").build();
+    }
+
+    // all role
+    @GetMapping(path = "/api/movies", produces = MediaType.APPLICATION_JSON_VALUE)
+    public WebResponse<List<Movies>> getMethodName(HttpServletRequest header) {
+        validateToken(header);
+
+        List<Movies> data = movieService.getMovies();
+        return WebResponse.<List<Movies>>builder().data(data).build();
     }
 }
