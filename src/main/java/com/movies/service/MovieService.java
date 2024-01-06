@@ -30,4 +30,15 @@ public class MovieService {
         return movies;
     }
 
+    public void updateMovie(String id, MovieRequest request) {
+        Movies movies = new Movies();
+        movies.setDescription(request.getDescription());
+        movies.setRating(request.getRating());
+        movies.setTitle(request.getTitle());
+        movies.setSchedule(request.getSchedule());
+        movies.setId(id);
+
+        movieRepository.save(movies);
+    }
+
 }
