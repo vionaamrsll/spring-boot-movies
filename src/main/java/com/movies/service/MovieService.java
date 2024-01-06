@@ -1,5 +1,7 @@
 package com.movies.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,12 @@ public class MovieService {
         movies.setSchedule(request.getSchedule());
 
         movieRepository.save(movies);
+    }
+
+    public List<Movies> getMovies() {
+        List<Movies> movies = movieRepository.findAll();
+
+        return movies;
     }
 
 }
