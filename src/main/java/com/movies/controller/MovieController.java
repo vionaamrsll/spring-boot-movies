@@ -17,6 +17,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -80,6 +81,19 @@ public class MovieController {
         }
 
         movieService.updateMovie(id, request);
+        return WebResponse.<String>builder().data("ok").build();
+    }
+
+    // only admin
+    @DeleteMapping(path = "/api/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public WebResponse<String> deleteMovie(@PathVariable String id, HttpServletRequest header) {
+        Claims claim = validateToken(header);
+        if (!(boolean) claim.get("is_admin")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "unauthorized action");
+        }
+
+        movieService.deleteMovie(id);
         return WebResponse.<String>builder().data("ok").build();
     }
 }
