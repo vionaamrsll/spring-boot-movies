@@ -18,7 +18,9 @@ import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -64,5 +66,20 @@ public class MovieController {
 
         List<Movies> data = movieService.getMovies();
         return WebResponse.<List<Movies>>builder().data(data).build();
+    }
+
+    // only admin
+    @PutMapping(path = "/api/movies/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public WebResponse<String> updateMovie(@PathVariable String id, @RequestBody MovieRequest request,
+            HttpServletRequest header) {
+        Claims claim = validateToken(header);
+        System.out.println((boolean) claim.get("is_admin"));
+        if (!(boolean) claim.get("is_admin")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "unauthorized action");
+        }
+
+        movieService.updateMovie(id, request);
+        return WebResponse.<String>builder().data("ok").build();
     }
 }
