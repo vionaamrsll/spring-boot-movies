@@ -3,6 +3,7 @@ import { MovieTable } from "../components/MovieTable";
 import { EditMovie } from "../components/EditMovie";
 import { AddMovie } from "../components/AddMovie";
 import { jwtDecode } from "jwt-decode";
+import { UserProfile } from "../components/UserProfile";
 
 export const MovieList = () => {
   const [movieData, setMovieData] = useState(null); // set state pas onsukses fetch data
@@ -18,6 +19,10 @@ export const MovieList = () => {
 
   const navigateAdd = () => {
     setPageState("add");
+  };
+
+  const navigateProfile = () => {
+    setPageState("profile");
   };
 
   const handleLogout = () => {
@@ -75,13 +80,20 @@ export const MovieList = () => {
         console.log(error);
       }
     };
-    if (movieData == null ) { 
+    if (movieData == null) {
       fetchMovieData();
     }
   });
 
   return (
     <div className="flex flex-col items-center h-screen text-black bg-white">
+      <button
+        className="absolute p-2 text-white bg-blue-500 right-3 top-3"
+        onClick={navigateProfile}
+      >
+        Profile
+      </button>
+      {pageState === "profile" && <UserProfile />}
       {pageState === "read" && movieData && (
         <MovieTable movieData={movieData.data} onEdit={handleEdit} />
       )}
