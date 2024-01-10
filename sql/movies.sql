@@ -1,56 +1,60 @@
-/*
- Navicat Premium Data Transfer
+﻿# Host: localhost  (Version 5.5.5-10.4.28-MariaDB)
+# Date: 2024-01-10 09:33:18
+# Generator: MySQL-Front 6.0  (Build 2.20)
 
- Source Server         : mysql-docker
- Source Server Type    : MySQL
- Source Server Version : 80032 (8.0.32)
- Source Host           : localhost:3306
- Source Schema         : movies
 
- Target Server Type    : MySQL
- Target Server Version : 80032 (8.0.32)
- File Encoding         : 65001
+#
+# Structure for table "auth"
+#
 
- Date: 06/01/2024 15:07:11
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for auth
--- ----------------------------
 DROP TABLE IF EXISTS `auth`;
-CREATE TABLE `auth`  (
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+CREATE TABLE `auth` (
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `is_admin` tinyint(1) NOT NULL,
   PRIMARY KEY (`username`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- ----------------------------
--- Records of auth
--- ----------------------------
-INSERT INTO `auth` VALUES ('admin', 'admin123', 1);
-INSERT INTO `auth` VALUES ('user', 'user123', 0);
+#
+# Data for table "auth"
+#
 
--- ----------------------------
--- Table structure for movies
--- ----------------------------
+INSERT INTO `auth` VALUES ('admin','admin123',1),('user','user123',0);
+
+#
+# Structure for table "movies"
+#
+
 DROP TABLE IF EXISTS `movies`;
-CREATE TABLE `movies`  (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `rating` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `schedule` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+CREATE TABLE `movies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `schedule` datetime NOT NULL,
+  `rating` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- ----------------------------
--- Records of movies
--- ----------------------------
-INSERT INTO `movies` VALUES (10, 'film2', 'desc2', '1.8', '2023-01-01 12:21:00');
-INSERT INTO `movies` VALUES (12, 'new2', 'asd', '9.8', '2024-01-05 22:04:00');
+#
+# Data for table "movies"
+#
 
-SET FOREIGN_KEY_CHECKS = 1;
+INSERT INTO `movies` VALUES (1,'film1','desc1','2024-01-06 10:56:23','9.4');
+
+#
+# Structure for table "users"
+#
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `username` varchar(255) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+#
+# Data for table "users"
+#
+
+INSERT INTO `users` VALUES ('admin','new','082176547728','viona@gmail.com'),('user','senli','082198769982','senli@gmail.com');
